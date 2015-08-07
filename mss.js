@@ -3,17 +3,22 @@
 
 	var prevX = 0, prevY = 0, curX = 0, curY = 0;
 	var butX = 0, butY = 0, butW = 0, butH = 0;
+	
 	var flag = false;
 	var clearflag = false;
 	var drawable = false;
+	
 	var startslide = 3;
 	var curslide = startslide;
+	
 	var img;
 	var canvas;
 	var context;
 	var h=0,w=0;
 	
-	//Looks like a mess, but the structure is slide image id, whether you can draw on the slide, and a list of types and positions of buttons for each slide
+	//Looks like a mess, but the array encodes the logic of the slide show.
+	//The format is slide image id, whether you can draw on the slide, and a list of buttons with the function and dimensions of each.
+	//Dimensions are in terms of percent of the page.
 	var slides = [
 		['slide0',false,[]],
 		['slide1',false,[]],
@@ -58,13 +63,14 @@
 		canvas = document.getElementById( 'canvas' );
 		context  = canvas.getContext( "2d" );
 		
-		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong t:here
+		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 		context.canvas.width  = window.innerWidth - 25;
 		context.canvas.height = window.innerHeight - 25;
 		img = document.getElementById(slides[curslide][0]);
 		draw(img);
 		
 		canvas.addEventListener('mousedown', function(e) {
+
 			prevX = curX;
 			prevY = curY;
 			curX = e.pageX - canvas.offsetLeft;
@@ -80,9 +86,11 @@
 				butW = slides[curslide][2][i][3];
 				butH = slides[curslide][2][i][4];
 				if (curX > butX*w && curX < (butX + butW)*w && curY > butY*h && curY < (butY + butH)*h) {
+					//Rudimentary button Feedback
 					context.globalAlpha=0.5;
 					context.fillRect(butX*w,butY*h,butW*w,butH*h);
 					context.globalAlpha=1;
+					//Change the slide if the button is a link, and signal mouseup to redraw it either way
 					clearflag = true;
 					if(slides[curslide][2][i][0] == 'link') {
 						curslide = slides[curslide][2][i][5];
@@ -91,19 +99,21 @@
 					}
 					break;
 				} else {
+					//Start drawing the path that the mouse traces
 					flag = true;
 				}
 			}
 		}, false);
 		
 		canvas.addEventListener('mousemove', function(e) {
+			//Draw lines following the mouse
 			if(flag && drawable) {
 				prevX = curX;
 				prevY = curY;
 				curX = e.pageX - canvas.offsetLeft;
 				curY = e.pageY - canvas.offsetTop;
 				drawLine(prevX,prevY,curX,curY);
-				//(prevX+1,prevY+1,curX-1,curY-1);
+				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
 				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
 			}
 		}, false);
@@ -113,6 +123,7 @@
 			if(clearflag) {
 				draw(img);
 				clearflag = false;
+				//Put an eraser button if appropriate
 				if(drawable) {
 					context.drawImage(document.getElementById('erase'),0,.9*h,.1*w,.1*h);
 				}
@@ -134,6 +145,7 @@
 				context.beginPath();
 				context.moveTo(x1, y1);
 				context.lineTo(x2, y2);
+				//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
 				context.lineWidth = 2;
 				if(canvas.height*img.width/img.height - x2 >= 0 && canvas.height - y2 >= 0) {
 					context.stroke();
