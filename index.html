@@ -3,7 +3,8 @@
 <script src="mss.js"></script>
 <div style="display:none;">
   <img id="erase" src="erase.jpg">
-  <img id="erase2" src="erase2.jpg">
+  <img id="pen" src="pen.png">
+  <img id="clear" src="clear.jpg">
   <img id="slide0" src="Slide1.JPG">
   <img id="slide1" src="Slide1.JPG">
   <img id="slide2" src="Slide2.JPG">
@@ -34,7 +35,8 @@
 </head>
 <body onload="init();">
 
-<canvas id="canvas" width="300" height="300"></canvas>
+<canvas id="canvas1" width="300" height="300" style="position: absolute; left: 0; top: 0; z-index: 0"></canvas>
+<canvas id="canvas2" width="300" height="300" style="position: absolute; left: 0; top: 0; z-index: 1"></canvas>
 
 
 </body>
