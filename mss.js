@@ -8,6 +8,7 @@
 	var clearflag = false;
 	var drawable = false;
 	var pen = true;
+	var draggable = false;
 	
 	var startslide = 3;
 	var curslide = startslide;
@@ -18,49 +19,67 @@
 	var context1;
 	var context2;
 	var h=0,w=0;
+	var snapConstant = .2;
+	
+	var numW = .13;
+	var numH = .24;
 	
 	//Looks like a mess, but the array encodes the logic of the slide show.
 	//The format is slide image id, whether you can draw on the slide, and a list of buttons with the function and dimensions of each.
+	//The last parameter of a link is its destination
 	//Dimensions are in terms of percent of the page.
 	var slides = [
-		['slide0',false,[]],
-		['slide1',false,[]],
+		['slide0',false,[],false,0],
+		['slide1',false,[],false,0],
 
 		//Main Menu
-		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]]],		
-		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]]],
-		['slide4',false,[['link',.03,.56,.16,.19,startslide]]],
+		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0],		
+		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0],
+		['slide4',false,[['link',.03,.56,.16,.19,startslide]],false,0],
 
 		//Number Digits
 		['slide5',false,[['link',.07,.2,.18,.23,6],['link',.29,.2,.18,.23,7],['link',.52,.2,.18,.23,8],['link',.75,.2,.18,.23,9],
-		['link',.07,.47,.18,.23,10],['link',.29,.47,.18,.23,11],['link',.52,.47,.18,.23,12],['link',.75,.47,.18,.23,13],['link',.88,.83,.1,.13,startslide]]],		
-		['slide6',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide7',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide8',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide9',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide10',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide11',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide12',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
-		['slide13',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]]],
+		['link',.07,.47,.18,.23,10],['link',.29,.47,.18,.23,11],['link',.52,.47,.18,.23,12],
+		['link',.75,.47,.18,.23,13],['link',.88,.83,.1,.13,startslide]],false,0],		
+		['slide6',false,[['link',.87,.85,.10,.10,5]],true,4,[[.2,.5,numW,numH],[.38,.5,numW,numH],[.56,.5,numW,numH],[.72,.5,numW,numH]]],
+		['slide7',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide8',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide9',false,[['link',.87,.85,.10,.10,5]],true,5,[[.33,.2,numW,numH],[.475,.2,numW,numH],[.62,.2,numW,numH],
+		[.475,.45,numW,numH],[.62,.45,numW,numH]]],
+		['slide10',false,[['link',.87,.85,.10,.10,5]],true,8,[[.27,.23,numW,numH],[.41,.23,numW,numH],[.56,.23,numW,numH],[.7,.23,numW,numH],
+		[.27,.48,numW,numH],[.41,.48,numW,numH],[.56,.48,numW,numH],[.7,.48,numW,numH]]],
+		['slide11',false,[['link',.87,.85,.10,.10,5]],true,7,[[.235,.2,numW,numH],[.38,.2,numW,numH],[.525,.2,numW,numH],[.67,.2,numW,numH],
+		[.38,.45,numW,numH],[.525,.45,numW,numH],[.67,.45,numW,numH]]],
+		['slide12',false,[['link',.87,.85,.10,.10,5]],true,9,[[.135,.2,numW,numH],[.28,.2,numW,numH],[.425,.2,numW,numH],[.57,.2,numW,numH],[.715,.2,numW,numH],
+		[.28,.45,numW,numH],[.425,.45,numW,numH],[.57,.45,numW,numH],[.715,.45,numW,numH]]],
+		['slide13',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
 
 		//Continuous Shapes
 		['slide14',false,[['link',.07,.29,.18,.22,15],['link',.29,.29,.18,.22,16],['link',.52,.29,.18,.22,17],['link',.74,.29,.18,.22,18],
-		['link',.88,.83,.1,.13,startslide]]],
-		['slide15',false,[['link',.87,.85,.10,.10,14]]],
-		['slide16',false,[['link',.87,.85,.10,.10,14]]],
-		['slide17',false,[['link',.87,.85,.10,.10,14]]],
-		['slide18',false,[['link',.87,.85,.10,.10,14]]],
+		['link',.88,.83,.1,.13,startslide]],false,0],
+		['slide15',false,[['link',.87,.85,.10,.10,14]],false,0],
+		['slide16',false,[['link',.87,.85,.10,.10,14]],false,0],
+		['slide17',false,[['link',.87,.85,.10,.10,14]],false,0],
+		['slide18',false,[['link',.87,.85,.10,.10,14]],false,0],
 		
 		//Lines of Symmetry
 		['slide19',false,[['link',.07,.2,.18,.23,20],['link',.29,.2,.18,.23,21],['link',.52,.2,.18,.23,22],['link',.75,.2,.18,.23,23],
-		['link',.07,.47,.18,.23,24],['link',.29,.47,.18,.23,25],['link',.88,.83,.1,.13,startslide]]],
-		['slide20',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
-		['slide21',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
-		['slide22',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
-		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
-		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
-		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]]],
+		['link',.07,.47,.18,.23,24],['link',.29,.47,.18,.23,25],['link',.88,.83,.1,.13,startslide]],false,0],
+		['slide20',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide21',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide22',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
 	];
+	
+	var dragNums = [['numone',1,0,.1,.1,false],['numtwo',1,.1,.1,.1,false],['numthree',1,.2,.1,.1,false],['numfour',1,.3,.1,.1,false],['numfive',0,.4,.1,.1,false],
+		['numsix',0,.5,.1,.1,false],['numseven',0,.6,.1,.1,false],['numeight',0,.7,.1,.1,false],['numnine',0,.8,.1,.1,false]];
+	var numsEnabled = 0;
+
+	var held = null;
+	var boxes = [];
+	var snapped = false;
 	
 	function init() {
 		canvas1 = document.getElementById( 'canvas1' );
@@ -74,8 +93,7 @@
 		context1.canvas.height = window.innerHeight - 25;
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
-		img = document.getElementById(slides[curslide][0]);
-		draw(img);
+		draw();
 		
 		canvas2.addEventListener('mousedown', function(e) {
 
@@ -85,6 +103,7 @@
 			curY = e.pageY - canvas1.offsetTop;
 			h = canvas1.height;
 			w = canvas1.height*img.width/img.height;
+			
 			
 			var butX = 0, butY = 0, butW = 0, butH = 0;
 			// Checking if the click is in a button's area
@@ -99,13 +118,20 @@
 					context1.globalAlpha=0.5;
 					context1.fillRect(butX*w,butY*h,butW*w,butH*h);
 					context1.globalAlpha=1;
-					//Change the slide if the button is a link, and signal mouseup to redraw it either way
+					//Change the slide if the button is a link
 					if(butType == 'link') {
 						curslide = slides[curslide][2][i][5];
-						img = document.getElementById(slides[curslide][0]);
 						drawable = slides[curslide][1];
+						context2.clearRect(0,0,canvas2.width,canvas2.height);
+						held = null;
+						draggable = slides[curslide][3];
+						if(draggable){
+							numsEnabled = slides[curslide][4];
+							boxes = slides[curslide][5];
+							resetNums();
+						}
 					} else if(butType == 'clear') {
-						context2.clearRect(0,0,w,h);
+						context2.clearRect(0,0,w+50,h);
 					} else if(butType == 'pen') {
 						pen = true;
 					} else if(butType == 'eraser') {
@@ -117,15 +143,27 @@
 					flag = true;
 				}
 			}
+			if(draggable) {
+				for(i=0;i<numsEnabled;i++) {
+					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
+					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
+						held = dragNums[i];
+						dragNums[i][1] = curX/w - dragNums[i][3]/2;
+						dragNums[i][2] = curY/h - dragNums[i][4]/2;
+						drawDraggable();
+						break;
+					}
+				}
+			}
 		}, false);
 		
 		canvas2.addEventListener('mousemove', function(e) {
 			//Draw lines following the mouse
+			prevX = curX;
+			prevY = curY;
+			curX = e.pageX - canvas2.offsetLeft;
+			curY = e.pageY - canvas2.offsetTop;
 			if(flag && drawable) {
-				prevX = curX;
-				prevY = curY;
-				curX = e.pageX - canvas2.offsetLeft;
-				curY = e.pageY - canvas2.offsetTop;
 				if(pen) {
 					drawLine(prevX,prevY,curX,curY);
 					//drawLine(prevX+1,prevY+1,curX-1,curY-1);
@@ -135,11 +173,30 @@
 				}
 				
 			}
+			snapped = false;
+			if (draggable && held != null) {	
+				for(i=0;i<boxes.length;i++) { 
+					if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
+					curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+						held[1] = boxes[i][0];
+						held[2] = boxes[i][1];
+						snapped = true;
+						break;
+					}
+					//dragNums[0][0] = 'erase';
+				}
+				if (!snapped) {
+					held[1] = curX/w - held[3]/2;
+					held[2] = curY/h - held[4]/2;
+				}
+				draw();
+			}
 		}, false);
 		
 		canvas2.addEventListener('mouseup', function(e) {
 			flag = false;
-			draw(img);
+			draw();
+			drawDraggable;
 			//Put an eraser button if appropriate
 			if(drawable) {
 				context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
@@ -155,16 +212,32 @@
 				context1.stroke();
 				context1.closePath();
 			}
+			held = null;
 		}, false);
 		
 		canvas2.addEventListener('mouseout', function(e) {
 			flag = false;
+			held = null;
 		}, false);
 	}
 	
-	function draw(image) {
+	function draw() {
 		context1.clearRect(0, 0, canvas1.width, canvas1.height);
-		context1.drawImage(image,0,0,canvas1.height*image.width/image.height, canvas1.height);
+		img = document.getElementById(slides[curslide][0]);
+		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
+		if(draggable) {
+			drawDraggable();
+		}
+	}
+	
+	function drawDraggable() {
+		context2.clearRect(0,0,canvas2.width,canvas2.height);
+		for(i=0;i<numsEnabled;i++) {
+			context2.drawImage(document.getElementById(dragNums[i][0]),dragNums[i][1]*w,dragNums[i][2]*h,dragNums[i][3]*w,dragNums[i][4]*h);
+		}
+		for(i=0;i<boxes.length;i++) {
+			context1.drawImage(document.getElementById('box'),boxes[i][0]*w,boxes[i][1]*h,boxes[i][2]*w,boxes[i][3]*h);
+		}
 	}
 	
 	function drawLine(x1,y1,x2,y2) {
@@ -179,3 +252,11 @@
 				context2.closePath();
 	}
 	
+	function resetNums() {
+		for(i=0;i<dragNums.length;i++) {
+			dragNums[i][1] = 1+Math.floor(i/3)*numW;
+			dragNums[i][2] = numH*(i%3);
+			dragNums[i][3] = numW;
+			dragNums[i][4] = numH;
+		}
+	}
