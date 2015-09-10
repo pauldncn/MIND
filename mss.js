@@ -85,18 +85,11 @@
 	
 	function init() {
 		canvas1 = document.getElementById( 'canvas1' );
-		context1  = canvas1.getContext( "2d" );
 		
 		canvas2 = document.getElementById( 'canvas2' );
-
-		
+	
 		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
-		context1.canvas.width  = window.innerWidth - 25;
-		context1.canvas.height = window.innerHeight - 25;
-
-		
-
-		
+	
 		/*canvas2.addEventListener('mousedown', mouseDownHandler, false);		
 		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
 		canvas2.addEventListener('mouseup', mouseUpHandler, false);
@@ -108,7 +101,10 @@
 		canvas2.addEventListener('touchmove', touchMoveHandler , false);		
 		canvas2.addEventListener('touchend', touchEndHandler, false);	
 
+		context1  = canvas1.getContext( "2d" );
 		context2  = canvas2.getContext( "2d" );	
+		context1.canvas.width  = window.innerWidth - 25;
+		context1.canvas.height = window.innerHeight - 25;
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();		
@@ -242,8 +238,8 @@
 		
 		touch = e.touches[0];
 		
-		curX = touch.pageX - canvas2.offsetLeft;
-		curY = touch.pageY - canvas2.offsetTop;
+		curX = touch.pageX;
+		curY = touch.pageY;
 		h = canvas1.height;
 		w = canvas1.height*img.width/img.height;
 		
@@ -308,8 +304,8 @@
 		
 		touch = e.touches[0];
 			
-		curX = touch.pageX - canvas2.offsetLeft;
-		curY = touch.pageY - canvas2.offsetTop;
+		curX = touch.pageX;
+		curY = touch.pageY;
 		if(flag && drawable) {
 			if(pen) {
 				drawLine(prevX,prevY,curX,curY);
@@ -368,7 +364,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.8",0,10);
+		context1.strokeText("Version 1.9",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
