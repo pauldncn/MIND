@@ -259,14 +259,14 @@
 				if(butType == 'link') {
 					curslide = slides[curslide][2][i][5];
 					drawable = slides[curslide][1];
-					/*context2.clearRect(0,0,canvas2.width,canvas2.height);
+					//context2.clearRect(0,0,canvas2.width,canvas2.height);
 					held = null;
 					draggable = slides[curslide][3];
 					if(draggable){
 						numsEnabled = slides[curslide][4];
 						boxes = slides[curslide][5];
 						resetNums();
-					}*/
+					}
 				} else if(butType == 'clear') {
 					context2.clearRect(0,0,w+50,h);
 				} else if(butType == 'pen') {
