@@ -3,6 +3,7 @@
 
 	var prevX = 0, prevY = 0, curX = 0, curY = 0;
 	var butX = 0, butY = 0, butW = 0, butH = 0;
+	var butType;
 	
 	var flag = false;
 	var clearflag = false;
@@ -108,7 +109,7 @@
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();	
-		writeText('Version 1.10');
+		writeText('Version 1.11');
 	}
 	
 	function mouseDownHandler(e) {
@@ -120,8 +121,6 @@
 		h = canvas1.height;
 		w = canvas1.height*img.width/img.height;
 		
-		
-		var butX = 0, butY = 0, butW = 0, butH = 0;
 		// Checking if the click is in a button's area
 		for(i=0;i<slides[curslide][2].length;i++) {
 			butType = slides[curslide][2][i][0];
@@ -244,8 +243,6 @@
 		h = canvas1.height;
 		w = canvas1.height*img.width/img.height;
 		
-		
-		var butX = 0, butY = 0, butW = 0, butH = 0;
 		// Checking if the click is in a button's area
 		for(i=0;i<slides[curslide][2].length;i++) {
 			butType = slides[curslide][2][i][0];
@@ -261,7 +258,7 @@
 				//Change the slide if the button is a link
 				if(butType == 'link') {
 					curslide = slides[curslide][2][i][5];
-					drawable = slides[curslide][1];
+					/*drawable = slides[curslide][1];
 					context2.clearRect(0,0,canvas2.width,canvas2.height);
 					held = null;
 					draggable = slides[curslide][3];
@@ -269,7 +266,7 @@
 						numsEnabled = slides[curslide][4];
 						boxes = slides[curslide][5];
 						resetNums();
-					}
+					}*/
 				} else if(butType == 'clear') {
 					context2.clearRect(0,0,w+50,h);
 				} else if(butType == 'pen') {
