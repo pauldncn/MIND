@@ -81,6 +81,8 @@
 	var boxes = [];
 	var snapped = false;
 	
+	var touch = null;
+	
 	function init() {
 		canvas1 = document.getElementById( 'canvas1' );
 		context1  = canvas1.getContext( "2d" );
@@ -97,8 +99,6 @@
 		context2.canvas.height = window.innerHeight - 25;
 		draw();
 		
-		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
-		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
 		canvas2.addEventListener('mousedown', function(e) {
 
 			prevX = curX;
@@ -197,7 +197,69 @@
 			}
 		}, false);
 		
+		canvas2.addEventListener('touchmove', function(e) {
+			//Draw lines following the mouse
+			prevX = curX;
+			prevY = curY;
+			
+			var touch = event.targetTouches[0];
+			
+			curX = touch.pageX - canvas2.offsetLeft;
+			curY = touch.pageY - canvas2.offsetTop;
+			if(flag && drawable) {
+				if(pen) {
+					drawLine(prevX,prevY,curX,curY);
+					//drawLine(prevX+1,prevY+1,curX-1,curY-1);
+					//drawLine(prevX-1,prevY-1,curX+1,curY+1);
+				} else {
+					context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
+				}
+				
+			}
+			snapped = false;
+			if (draggable && held != null) {	
+				for(i=0;i<boxes.length;i++) { 
+					if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
+					curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+						held[1] = boxes[i][0];
+						held[2] = boxes[i][1];
+						snapped = true;
+						break;
+					}
+					//dragNums[0][0] = 'erase';
+				}
+				if (!snapped) {
+					held[1] = curX/w - held[3]/2;
+					held[2] = curY/h - held[4]/2;
+				}
+				draw();
+			}
+			e.preventDefault();
+		}, false);
+		
 		canvas2.addEventListener('mouseup', function(e) {
+			flag = false;
+			draw();
+			drawDraggable;
+			//Put an eraser button if appropriate
+			if(drawable) {
+				context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
+				context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
+				context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
+				
+				context1.beginPath();
+				if(pen) {
+					context1.rect(.1*w,.9*h,.1*w,.1*h);
+				} else {
+					context1.rect(.2*w,.9*h,.1*w,.1*h);
+				}
+				context1.stroke();
+				context1.closePath();
+			}
+			held = null;
+		}, false);
+		
+		canvas2.addEventListener('touchend', function(e) {
 			flag = false;
 			draw();
 			drawDraggable;
@@ -230,7 +292,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.0",0,10);
+		context1.strokeText("Version 1.1",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
