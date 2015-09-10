@@ -280,6 +280,7 @@
 				flag = true;
 			}
 		}
+		
 		if(draggable) {
 			for(i=0;i<numsEnabled;i++) {
 				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
@@ -339,7 +340,7 @@
 		e.preventDefault();
 		flag = false;
 		draw();
-		writeText('touchend');
+		writeText(slides[curslide][0]);
 		/*drawDraggable;
 		//Put an eraser button if appropriate
 		if(drawable) {
