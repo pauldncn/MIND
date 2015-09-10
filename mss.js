@@ -161,6 +161,7 @@
 		}, false);
 	
 		canvas2.addEventListener('touchstart', function(e) {
+			e.preventDefault();
 			
 			prevX = curX;
 			prevY = curY;
@@ -224,7 +225,7 @@
 				}
 			}
 		}, false);
-		/*
+		
 		canvas2.addEventListener('mousemove', function(e) {
 			//Draw lines following the mouse
 			prevX = curX;
@@ -260,7 +261,7 @@
 				draw();
 			}
 		}, false);
-		*/
+		
 		canvas2.addEventListener('touchmove', function(e) {
 			e.preventDefault();
 			//Draw lines following the mouse
@@ -301,7 +302,7 @@
 			}
 		}, false);
 		
-		/*
+		
 		canvas2.addEventListener('mouseup', function(e) {
 			flag = false;
 			draw();
@@ -323,7 +324,7 @@
 			}
 			held = null;
 		}, false);
-		*/
+		
 		canvas2.addEventListener('touchend', function(e) {
 			e.preventDefault();
 			flag = false;
@@ -358,7 +359,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.4 (Mouse Disabled)",0,10);
+		context1.strokeText("Version 1.5",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
