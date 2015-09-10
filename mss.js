@@ -341,7 +341,7 @@
 	}	
 	
 	function touchEndHandler(e) {
-		e.preventDefault();
+		//e.preventDefault();
 		flag = false;
 		draw();
 		writeText('touchend');
