@@ -100,7 +100,9 @@
 		}, false);*/
 		canvas2.addEventListener('touchstart', touchStartHandler, false);	
 		canvas2.addEventListener('touchmove', touchMoveHandler, false);		
-		canvas2.addEventListener('touchend', touchEndHandler, false);	
+		canvas2.addEventListener('touchend', touchEndHandler, false);
+		canvas2.addEventListener('touchleave', otherHandler, false);
+		canvas2.addEventListener('touchcancel', otherHandler, false);
 
 		context1  = canvas1.getContext( "2d" );
 		context2  = canvas2.getContext( "2d" );	
@@ -316,6 +318,7 @@
 			}
 				
 		}
+		
 		snapped = false;
 		if (draggable && held != null) {	
 			for(i=0;i<boxes.length;i++) { 
@@ -358,6 +361,10 @@
 			context1.closePath();
 		}
 		held = null;*/
+	}
+	
+	function otherHandler(e) {
+		e.preventDefault();
 	}
 	
 	function draw() {
