@@ -98,7 +98,7 @@
 		context2.canvas.height = window.innerHeight - 25;
 		draw();
 		
-		/*canvas2.addEventListener('mousedown', function(e) {
+		canvas2.addEventListener('mousedown', function(e) {
 
 			prevX = curX;
 			prevY = curY;
@@ -159,7 +159,7 @@
 				}
 			}
 		}, false);
-		*/
+	
 		canvas2.addEventListener('touchstart', function(e) {
 			
 			prevX = curX;
