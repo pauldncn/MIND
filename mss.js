@@ -357,7 +357,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.1",0,10);
+		context1.strokeText("Version 1.2",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
