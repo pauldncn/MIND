@@ -98,6 +98,12 @@
 			flag = false;
 			held = null;
 		}, false);*/
+		canvas1.addEventListener('touchstart', touchStartHandler, false);	
+		canvas1.addEventListener('touchmove', touchMoveHandler, false);		
+		canvas1.addEventListener('touchend', touchEndHandler, false);
+		canvas1.addEventListener('touchleave', otherHandler, false);
+		canvas1.addEventListener('touchcancel', otherHandler, false);
+		
 		canvas2.addEventListener('touchstart', touchStartHandler, false);	
 		canvas2.addEventListener('touchmove', touchMoveHandler, false);		
 		canvas2.addEventListener('touchend', touchEndHandler, false);
