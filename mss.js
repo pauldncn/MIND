@@ -166,7 +166,7 @@
 			prevX = curX;
 			prevY = curY;
 			
-			touch = e.targetTouches[0];
+			touch = e.touches[0];
 			
 			curX = touch.pageX - canvas2.offsetLeft;
 			curY = touch.pageY - canvas2.offsetTop;
@@ -267,7 +267,7 @@
 			prevX = curX;
 			prevY = curY;
 			
-			touch = e.targetTouches[0];
+			touch = e.touches[0];
 			
 			curX = touch.pageX - canvas2.offsetLeft;
 			curY = touch.pageY - canvas2.offsetTop;
@@ -357,7 +357,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.2",0,10);
+		context1.strokeText("Version 1.3",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
