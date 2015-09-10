@@ -93,7 +93,7 @@
 	
 		/*canvas2.addEventListener('mousedown', mouseDownHandler, false);		
 		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
-		canvas2.addEventListener('mouseup', mouseUpHandler, false);
+		*/canvas2.addEventListener('mouseup', mouseUpHandler, false);/*
 		canvas2.addEventListener('mouseout', function(e) {
 			flag = false;
 			held = null;
@@ -211,6 +211,7 @@
 	}
 	
 	function mouseUpHandler(e) {
+		writeText('mouseup');
 		flag = false;
 		draw();
 		drawDraggable;
@@ -398,10 +399,10 @@
 		context2.lineTo(x2, y2);
 		//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
 		context2.lineWidth = 2;
-		//if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
+		if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
 			context2.stroke();
-		//}
-		//context2.closePath();
+		}
+		context2.closePath();
 	}
 	
 	function resetNums() {
