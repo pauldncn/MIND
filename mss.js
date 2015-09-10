@@ -339,8 +339,8 @@
 		e.preventDefault();
 		writeText('touchend');
 		flag = false;
-		draw();
-		//drawDraggable;
+		/*draw();
+		drawDraggable;
 		//Put an eraser button if appropriate
 		if(drawable) {
 			context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
@@ -356,7 +356,7 @@
 			context1.stroke();
 			context1.closePath();
 		}
-		held = null;
+		held = null;*/
 	}
 	
 	function draw() {
