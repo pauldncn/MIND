@@ -310,7 +310,7 @@
 		curY = touch.pageY;
 		if(flag && drawable) {
 			if(pen) {
-				drawLine(prevX,prevY,curX,curY);
+				//drawLine(prevX,prevY,curX,curY);
 				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
 				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
 			} else {
