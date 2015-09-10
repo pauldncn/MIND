@@ -95,6 +95,8 @@
 		context2.canvas.height = window.innerHeight - 25;
 		draw();
 		
+		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
+		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
 		canvas2.addEventListener('mousedown', function(e) {
 
 			prevX = curX;
