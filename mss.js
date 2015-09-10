@@ -97,13 +97,13 @@
 		
 
 		
-		canvas2.addEventListener('mousedown', mouseDownHandler, false);		
+		/*canvas2.addEventListener('mousedown', mouseDownHandler, false);		
 		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
 		canvas2.addEventListener('mouseup', mouseUpHandler, false);
 		canvas2.addEventListener('mouseout', function(e) {
 			flag = false;
 			held = null;
-		}, false);
+		}, false);*/
 		canvas2.addEventListener('touchstart', touchStartHandler, false);	
 		canvas2.addEventListener('touchmove', touchMoveHandler , false);		
 		canvas2.addEventListener('touchend', touchEndHandler, false);	
@@ -368,7 +368,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.7",0,10);
+		context1.strokeText("Version 1.8",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
