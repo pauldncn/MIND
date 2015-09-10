@@ -99,7 +99,7 @@
 			held = null;
 		}, false);*/
 		canvas2.addEventListener('touchstart', touchStartHandler, false);	
-		canvas2.addEventListener('touchmove', touchMoveHandler , false);		
+		canvas2.addEventListener('touchmove', touchMoveHandler, false);		
 		canvas2.addEventListener('touchend', touchEndHandler, false);	
 
 		context1  = canvas1.getContext( "2d" );
@@ -337,9 +337,9 @@
 	
 	function touchEndHandler(e) {
 		e.preventDefault();
-		writeText('touchend');
 		flag = false;
 		draw();
+		writeText('touchend');
 		/*drawDraggable;
 		//Put an eraser button if appropriate
 		if(drawable) {
