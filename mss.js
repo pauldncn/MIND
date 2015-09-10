@@ -309,11 +309,11 @@
 			
 		curX = touch.pageX;
 		curY = touch.pageY;
+		console.log("f: "+flag+" D: " + drawable);
 		if(flag && drawable) {
 			if(pen) {
+				
 				drawLine(prevX,prevY,curX,curY);
-				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
-				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
 			} else {
 				context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
 			}
