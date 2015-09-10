@@ -340,7 +340,7 @@
 		e.preventDefault();
 		flag = false;
 		draw();
-		writeText(slides[curslide][0]);
+		writeText('touchend');
 		/*drawDraggable;
 		//Put an eraser button if appropriate
 		if(drawable) {
@@ -367,6 +367,7 @@
 		if(draggable) {
 			drawDraggable();
 		}
+		writeText('drawn');
 	}
 	
 	function writeText(s) {
