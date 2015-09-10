@@ -109,7 +109,7 @@
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();	
-		writeText('Version 1.11');
+		writeText('Version 1.12');
 	}
 	
 	function mouseDownHandler(e) {
@@ -347,14 +347,14 @@
 			context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
 			context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
 			
-			context1.beginPath();
+			/*context1.beginPath();
 			if(pen) {
 				context1.rect(.1*w,.9*h,.1*w,.1*h);
 			} else {
 				context1.rect(.2*w,.9*h,.1*w,.1*h);
 			}
 			context1.stroke();
-			context1.closePath();
+			context1.closePath();*/
 		}
 		held = null;
 	}
