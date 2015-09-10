@@ -107,7 +107,8 @@
 		context1.canvas.height = window.innerHeight - 25;
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
-		draw();		
+		draw();	
+		writeText('Version 1.10');
 	}
 	
 	function mouseDownHandler(e) {
@@ -232,7 +233,7 @@
 	
 	function touchStartHandler(e) {
 		e.preventDefault();
-		
+		writeText('touchstart');
 		prevX = curX;
 		prevY = curY;
 		
@@ -298,6 +299,7 @@
 	
 	function touchMoveHandler(e) {
 		e.preventDefault();
+		writeText('touchmove');
 		//Draw lines following the mouse
 		prevX = curX;
 		prevY = curY;
@@ -338,6 +340,7 @@
 	
 	function touchEndHandler(e) {
 		e.preventDefault();
+		writeText('touchend');
 		flag = false;
 		draw();
 		drawDraggable;
@@ -347,14 +350,14 @@
 			context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
 			context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
 			
-			/*context1.beginPath();
+			context1.beginPath();
 			if(pen) {
 				context1.rect(.1*w,.9*h,.1*w,.1*h);
 			} else {
 				context1.rect(.2*w,.9*h,.1*w,.1*h);
 			}
 			context1.stroke();
-			context1.closePath();*/
+			context1.closePath();
 		}
 		held = null;
 	}
@@ -363,13 +366,16 @@
 		context1.clearRect(0, 0, canvas1.width, canvas1.height);
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
-		context1.font = "10px Arial";
-		context1.strokeText("Version 1.9",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
 	}
 	
+	function writeText(s) {
+		context1.clearRect(0,0,100,15);
+		context1.font = "10px Arial";
+		context1.strokeText(s,0,10);		
+	}
 	function drawDraggable() {
 		context2.clearRect(0,0,canvas2.width,canvas2.height);
 		for(i=0;i<numsEnabled;i++) {
