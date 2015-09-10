@@ -90,7 +90,6 @@
 		canvas2 = document.getElementById( 'canvas2' );
 		context2  = canvas2.getContext( "2d" );
 		
-		//alert("Version 1.0");
 		
 		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 		context1.canvas.width  = window.innerWidth - 25;
@@ -99,7 +98,7 @@
 		context2.canvas.height = window.innerHeight - 25;
 		draw();
 		
-		canvas2.addEventListener('mousedown', function(e) {
+		/*canvas2.addEventListener('mousedown', function(e) {
 
 			prevX = curX;
 			prevY = curY;
@@ -160,7 +159,7 @@
 				}
 			}
 		}, false);
-		
+		*/
 		canvas2.addEventListener('touchstart', function(e) {
 			
 			prevX = curX;
@@ -225,7 +224,7 @@
 				}
 			}
 		}, false);
-		
+		/*
 		canvas2.addEventListener('mousemove', function(e) {
 			//Draw lines following the mouse
 			prevX = curX;
@@ -261,8 +260,9 @@
 				draw();
 			}
 		}, false);
-		
+		*/
 		canvas2.addEventListener('touchmove', function(e) {
+			e.preventDefault();
 			//Draw lines following the mouse
 			prevX = curX;
 			prevY = curY;
@@ -299,9 +299,9 @@
 				}
 				draw();
 			}
-			e.preventDefault();
 		}, false);
 		
+		/*
 		canvas2.addEventListener('mouseup', function(e) {
 			flag = false;
 			draw();
@@ -323,8 +323,9 @@
 			}
 			held = null;
 		}, false);
-		
+		*/
 		canvas2.addEventListener('touchend', function(e) {
+			e.preventDefault();
 			flag = false;
 			draw();
 			drawDraggable;
@@ -357,7 +358,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.3",0,10);
+		context1.strokeText("Version 1.4 (Mouse Disabled)",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
