@@ -258,8 +258,8 @@
 				//Change the slide if the button is a link
 				if(butType == 'link') {
 					curslide = slides[curslide][2][i][5];
-					/*drawable = slides[curslide][1];
-					context2.clearRect(0,0,canvas2.width,canvas2.height);
+					drawable = slides[curslide][1];
+					/*context2.clearRect(0,0,canvas2.width,canvas2.height);
 					held = null;
 					draggable = slides[curslide][3];
 					if(draggable){
