@@ -88,6 +88,8 @@
 		canvas2 = document.getElementById( 'canvas2' );
 		context2  = canvas2.getContext( "2d" );
 		
+		//alert("Version 1.0");
+		
 		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 		context1.canvas.width  = window.innerWidth - 25;
 		context1.canvas.height = window.innerHeight - 25;
@@ -227,6 +229,8 @@
 		context1.clearRect(0, 0, canvas1.width, canvas1.height);
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
+		context1.font = "10px Arial";
+		context1.strokeText("Version 1.0",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
