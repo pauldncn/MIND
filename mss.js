@@ -88,272 +88,279 @@
 		context1  = canvas1.getContext( "2d" );
 		
 		canvas2 = document.getElementById( 'canvas2' );
-		
+
 		
 		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 		context1.canvas.width  = window.innerWidth - 25;
 		context1.canvas.height = window.innerHeight - 25;
-		context2.canvas.width  = window.innerWidth - 25;
-		context2.canvas.height = window.innerHeight - 25;
-		draw();
-		
-		canvas2.addEventListener('mousedown', function(e) {
 
-			prevX = curX;
-			prevY = curY;
-			curX = e.pageX - canvas1.offsetLeft;
-			curY = e.pageY - canvas1.offsetTop;
-			h = canvas1.height;
-			w = canvas1.height*img.width/img.height;
-			
-			
-			var butX = 0, butY = 0, butW = 0, butH = 0;
-			// Checking if the click is in a button's area
-			for(i=0;i<slides[curslide][2].length;i++) {
-				butType = slides[curslide][2][i][0];
-				butX = slides[curslide][2][i][1];
-				butY = slides[curslide][2][i][2];
-				butW = slides[curslide][2][i][3];
-				butH = slides[curslide][2][i][4];
-				if (curX > butX*w && curX < (butX + butW)*w && curY > butY*h && curY < (butY + butH)*h) {
-					//Rudimentary button Feedback
-					context1.globalAlpha=0.5;
-					context1.fillRect(butX*w,butY*h,butW*w,butH*h);
-					context1.globalAlpha=1;
-					//Change the slide if the button is a link
-					if(butType == 'link') {
-						curslide = slides[curslide][2][i][5];
-						drawable = slides[curslide][1];
-						context2.clearRect(0,0,canvas2.width,canvas2.height);
-						held = null;
-						draggable = slides[curslide][3];
-						if(draggable){
-							numsEnabled = slides[curslide][4];
-							boxes = slides[curslide][5];
-							resetNums();
-						}
-					} else if(butType == 'clear') {
-						context2.clearRect(0,0,w+50,h);
-					} else if(butType == 'pen') {
-						pen = true;
-					} else if(butType == 'eraser') {
-						pen = false;
-					}
-					break;
-				} else {
-					//Start drawing the path that the mouse traces
-					flag = true;
-				}
-			}
-			if(draggable) {
-				for(i=0;i<numsEnabled;i++) {
-					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
-					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
-						held = dragNums[i];
-						dragNums[i][1] = curX/w - dragNums[i][3]/2;
-						dragNums[i][2] = curY/h - dragNums[i][4]/2;
-						drawDraggable();
-						break;
-					}
-				}
-			}
-		}, false);
-	
-		canvas2.addEventListener('touchstart', function(e) {
-			e.preventDefault();
-			
-			prevX = curX;
-			prevY = curY;
-			
-			touch = e.touches[0];
-			
-			curX = touch.pageX - canvas2.offsetLeft;
-			curY = touch.pageY - canvas2.offsetTop;
-			h = canvas1.height;
-			w = canvas1.height*img.width/img.height;
-			
-			
-			var butX = 0, butY = 0, butW = 0, butH = 0;
-			// Checking if the click is in a button's area
-			for(i=0;i<slides[curslide][2].length;i++) {
-				butType = slides[curslide][2][i][0];
-				butX = slides[curslide][2][i][1];
-				butY = slides[curslide][2][i][2];
-				butW = slides[curslide][2][i][3];
-				butH = slides[curslide][2][i][4];
-				if (curX > butX*w && curX < (butX + butW)*w && curY > butY*h && curY < (butY + butH)*h) {
-					//Rudimentary button Feedback
-					context1.globalAlpha=0.5;
-					context1.fillRect(butX*w,butY*h,butW*w,butH*h);
-					context1.globalAlpha=1;
-					//Change the slide if the button is a link
-					if(butType == 'link') {
-						curslide = slides[curslide][2][i][5];
-						drawable = slides[curslide][1];
-						context2.clearRect(0,0,canvas2.width,canvas2.height);
-						held = null;
-						draggable = slides[curslide][3];
-						if(draggable){
-							numsEnabled = slides[curslide][4];
-							boxes = slides[curslide][5];
-							resetNums();
-						}
-					} else if(butType == 'clear') {
-						context2.clearRect(0,0,w+50,h);
-					} else if(butType == 'pen') {
-						pen = true;
-					} else if(butType == 'eraser') {
-						pen = false;
-					}
-					break;
-				} else {
-					//Start drawing the path that the mouse traces
-					flag = true;
-				}
-			}
-			if(draggable) {
-				for(i=0;i<numsEnabled;i++) {
-					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
-					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
-						held = dragNums[i];
-						dragNums[i][1] = curX/w - dragNums[i][3]/2;
-						dragNums[i][2] = curY/h - dragNums[i][4]/2;
-						drawDraggable();
-						break;
-					}
-				}
-			}
-		}, false);
 		
-		canvas2.addEventListener('mousemove', function(e) {
-			//Draw lines following the mouse
-			prevX = curX;
-			prevY = curY;
-			curX = e.pageX - canvas2.offsetLeft;
-			curY = e.pageY - canvas2.offsetTop;
-			if(flag && drawable) {
-				if(pen) {
-					drawLine(prevX,prevY,curX,curY);
-					//drawLine(prevX+1,prevY+1,curX-1,curY-1);
-					//drawLine(prevX-1,prevY-1,curX+1,curY+1);
-				} else {
-					context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
-				}
-				
-			}
-			snapped = false;
-			if (draggable && held != null) {	
-				for(i=0;i<boxes.length;i++) { 
-					if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
-					curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
-						held[1] = boxes[i][0];
-						held[2] = boxes[i][1];
-						snapped = true;
-						break;
-					}
-					//dragNums[0][0] = 'erase';
-				}
-				if (!snapped) {
-					held[1] = curX/w - held[3]/2;
-					held[2] = curY/h - held[4]/2;
-				}
-				draw();
-			}
-		}, false);
+
 		
-		canvas2.addEventListener('touchmove', function(e) {
-			e.preventDefault();
-			//Draw lines following the mouse
-			prevX = curX;
-			prevY = curY;
-			
-			touch = e.touches[0];
-			
-			curX = touch.pageX - canvas2.offsetLeft;
-			curY = touch.pageY - canvas2.offsetTop;
-			if(flag && drawable) {
-				if(pen) {
-					drawLine(prevX,prevY,curX,curY);
-					//drawLine(prevX+1,prevY+1,curX-1,curY-1);
-					//drawLine(prevX-1,prevY-1,curX+1,curY+1);
-				} else {
-					context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
-				}
-				
-			}
-			snapped = false;
-			if (draggable && held != null) {	
-				for(i=0;i<boxes.length;i++) { 
-					if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
-					curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
-						held[1] = boxes[i][0];
-						held[2] = boxes[i][1];
-						snapped = true;
-						break;
-					}
-					//dragNums[0][0] = 'erase';
-				}
-				if (!snapped) {
-					held[1] = curX/w - held[3]/2;
-					held[2] = curY/h - held[4]/2;
-				}
-				draw();
-			}
-		}, false);
-		
-		
-		canvas2.addEventListener('mouseup', function(e) {
-			flag = false;
-			draw();
-			drawDraggable;
-			//Put an eraser button if appropriate
-			if(drawable) {
-				context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
-				context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
-				context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
-				
-				context1.beginPath();
-				if(pen) {
-					context1.rect(.1*w,.9*h,.1*w,.1*h);
-				} else {
-					context1.rect(.2*w,.9*h,.1*w,.1*h);
-				}
-				context1.stroke();
-				context1.closePath();
-			}
-			held = null;
-		}, false);
-		
-		canvas2.addEventListener('touchend', function(e) {
-			e.preventDefault();
-			flag = false;
-			draw();
-			drawDraggable;
-			//Put an eraser button if appropriate
-			if(drawable) {
-				context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
-				context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
-				context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
-				
-				context1.beginPath();
-				if(pen) {
-					context1.rect(.1*w,.9*h,.1*w,.1*h);
-				} else {
-					context1.rect(.2*w,.9*h,.1*w,.1*h);
-				}
-				context1.stroke();
-				context1.closePath();
-			}
-			held = null;
-		}, false);
-		
+		canvas2.addEventListener('mousedown', mouseDownHandler, false);		
+		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
+		canvas2.addEventListener('mouseup', mouseUpHandler, false);
 		canvas2.addEventListener('mouseout', function(e) {
 			flag = false;
 			held = null;
 		}, false);
+		canvas2.addEventListener('touchstart', touchStartHandler, false);	
+		canvas2.addEventListener('touchmove', touchMoveHandler , false);		
+		canvas2.addEventListener('touchend', touchEndHandler, false);	
+
+		context2  = canvas2.getContext( "2d" );	
+		context2.canvas.width  = window.innerWidth - 25;
+		context2.canvas.height = window.innerHeight - 25;
+		draw();		
+	}
+	
+	function mouseDownHandler(e) {
+
+		prevX = curX;
+		prevY = curY;
+		curX = e.pageX - canvas1.offsetLeft;
+		curY = e.pageY - canvas1.offsetTop;
+		h = canvas1.height;
+		w = canvas1.height*img.width/img.height;
 		
 		
-		context2  = canvas2.getContext( "2d" );
+		var butX = 0, butY = 0, butW = 0, butH = 0;
+		// Checking if the click is in a button's area
+		for(i=0;i<slides[curslide][2].length;i++) {
+			butType = slides[curslide][2][i][0];
+			butX = slides[curslide][2][i][1];
+			butY = slides[curslide][2][i][2];
+			butW = slides[curslide][2][i][3];
+			butH = slides[curslide][2][i][4];
+			if (curX > butX*w && curX < (butX + butW)*w && curY > butY*h && curY < (butY + butH)*h) {
+				//Rudimentary button Feedback
+				context1.globalAlpha=0.5;
+				context1.fillRect(butX*w,butY*h,butW*w,butH*h);
+				context1.globalAlpha=1;
+				//Change the slide if the button is a link
+				if(butType == 'link') {
+					curslide = slides[curslide][2][i][5];
+					drawable = slides[curslide][1];
+					context2.clearRect(0,0,canvas2.width,canvas2.height);
+					held = null;
+					draggable = slides[curslide][3];
+					if(draggable){
+						numsEnabled = slides[curslide][4];
+						boxes = slides[curslide][5];
+						resetNums();
+					}
+				} else if(butType == 'clear') {
+					context2.clearRect(0,0,w+50,h);
+				} else if(butType == 'pen') {
+					pen = true;
+				} else if(butType == 'eraser') {
+					pen = false;
+				}
+				break;
+			} else {
+				//Start drawing the path that the mouse traces
+				flag = true;
+			}
+		}
+		if(draggable) {
+			for(i=0;i<numsEnabled;i++) {
+				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
+				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
+					held = dragNums[i];
+					dragNums[i][1] = curX/w - dragNums[i][3]/2;
+					dragNums[i][2] = curY/h - dragNums[i][4]/2;
+					drawDraggable();
+					break;
+				}
+			}
+		}
+	}
+	
+	function mouseMoveHandler(e) {
+		//Draw lines following the mouse
+		prevX = curX;
+		prevY = curY;
+		curX = e.pageX - canvas2.offsetLeft;
+		curY = e.pageY - canvas2.offsetTop;
+		if(flag && drawable) {
+			if(pen) {
+				drawLine(prevX,prevY,curX,curY);
+				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
+				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
+			} else {
+				context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
+			}
+			
+		}
+		snapped = false;
+		if (draggable && held != null) {	
+			for(i=0;i<boxes.length;i++) { 
+				if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
+				curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+					held[1] = boxes[i][0];
+					held[2] = boxes[i][1];
+					snapped = true;
+					break;
+				}
+				//dragNums[0][0] = 'erase';
+			}
+			if (!snapped) {
+				held[1] = curX/w - held[3]/2;
+				held[2] = curY/h - held[4]/2;
+			}
+			draw();
+		}
+	}
+	
+	function mouseUpHandler(e) {
+		flag = false;
+		draw();
+		drawDraggable;
+		//Put an eraser button if appropriate
+		if(drawable) {
+			context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
+			context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
+			context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
+			
+			context1.beginPath();
+			if(pen) {
+				context1.rect(.1*w,.9*h,.1*w,.1*h);
+			} else {
+				context1.rect(.2*w,.9*h,.1*w,.1*h);
+			}
+			context1.stroke();
+			context1.closePath();
+		}
+		held = null;
+	}
+	
+	function touchStartHandler(e) {
+		e.preventDefault();
+		
+		prevX = curX;
+		prevY = curY;
+		
+		touch = e.touches[0];
+		
+		curX = touch.pageX - canvas2.offsetLeft;
+		curY = touch.pageY - canvas2.offsetTop;
+		h = canvas1.height;
+		w = canvas1.height*img.width/img.height;
+		
+		
+		var butX = 0, butY = 0, butW = 0, butH = 0;
+		// Checking if the click is in a button's area
+		for(i=0;i<slides[curslide][2].length;i++) {
+			butType = slides[curslide][2][i][0];
+			butX = slides[curslide][2][i][1];
+			butY = slides[curslide][2][i][2];
+			butW = slides[curslide][2][i][3];
+			butH = slides[curslide][2][i][4];
+			if (curX > butX*w && curX < (butX + butW)*w && curY > butY*h && curY < (butY + butH)*h) {
+				//Rudimentary button Feedback
+				context1.globalAlpha=0.5;
+				context1.fillRect(butX*w,butY*h,butW*w,butH*h);
+				context1.globalAlpha=1;
+				//Change the slide if the button is a link
+				if(butType == 'link') {
+					curslide = slides[curslide][2][i][5];
+					drawable = slides[curslide][1];
+					context2.clearRect(0,0,canvas2.width,canvas2.height);
+					held = null;
+					draggable = slides[curslide][3];
+					if(draggable){
+						numsEnabled = slides[curslide][4];
+						boxes = slides[curslide][5];
+						resetNums();
+					}
+				} else if(butType == 'clear') {
+					context2.clearRect(0,0,w+50,h);
+				} else if(butType == 'pen') {
+					pen = true;
+				} else if(butType == 'eraser') {
+					pen = false;
+				}
+				break;
+			} else {
+				//Start drawing the path that the mouse traces
+				flag = true;
+			}
+		}
+		if(draggable) {
+			for(i=0;i<numsEnabled;i++) {
+				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
+				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
+					held = dragNums[i];
+					dragNums[i][1] = curX/w - dragNums[i][3]/2;
+					dragNums[i][2] = curY/h - dragNums[i][4]/2;
+					drawDraggable();
+					break;
+				}
+			}
+		}
+	}
+	
+	function touchMoveHandler(e) {
+		e.preventDefault();
+		//Draw lines following the mouse
+		prevX = curX;
+		prevY = curY;
+		
+		touch = e.touches[0];
+			
+		curX = touch.pageX - canvas2.offsetLeft;
+		curY = touch.pageY - canvas2.offsetTop;
+		if(flag && drawable) {
+			if(pen) {
+				drawLine(prevX,prevY,curX,curY);
+				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
+				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
+			} else {
+				context2.clearRect(curX-.025*w, curY-.025*h, .05*w, .05*h);
+			}
+				
+		}
+		snapped = false;
+		if (draggable && held != null) {	
+			for(i=0;i<boxes.length;i++) { 
+				if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
+				curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+					held[1] = boxes[i][0];
+					held[2] = boxes[i][1];
+					snapped = true;
+					break;
+				}
+				//dragNums[0][0] = 'erase';
+			}
+			if (!snapped) {
+				held[1] = curX/w - held[3]/2;
+				held[2] = curY/h - held[4]/2;
+			}
+			draw();
+		}
+	}	
+	
+	function touchEndHandler(e) {
+		e.preventDefault();
+		flag = false;
+		draw();
+		drawDraggable;
+		//Put an eraser button if appropriate
+		if(drawable) {
+			context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
+			context1.drawImage(document.getElementById('pen'),.1*w,.9*h,.1*w,.1*h);
+			context1.drawImage(document.getElementById('erase'),.2*w,.9*h,.1*w,.1*h);
+			
+			context1.beginPath();
+			if(pen) {
+				context1.rect(.1*w,.9*h,.1*w,.1*h);
+			} else {
+				context1.rect(.2*w,.9*h,.1*w,.1*h);
+			}
+			context1.stroke();
+			context1.closePath();
+		}
+		held = null;
 	}
 	
 	function draw() {
@@ -361,7 +368,7 @@
 		img = document.getElementById(slides[curslide][0]);
 		context1.drawImage(img,0,0,canvas1.height*img.width/img.height, canvas1.height);
 		context1.font = "10px Arial";
-		context1.strokeText("Version 1.6",0,10);
+		context1.strokeText("Version 1.7",0,10);
 		if(draggable) {
 			drawDraggable();
 		}
@@ -378,15 +385,15 @@
 	}
 	
 	function drawLine(x1,y1,x2,y2) {
-				context2.beginPath();
-				context2.moveTo(x1, y1);
-				context2.lineTo(x2, y2);
-				//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
-				context2.lineWidth = 2;
-				if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
-					context2.stroke();
-				}
-				context2.closePath();
+		context2.beginPath();
+		context2.moveTo(x1, y1);
+		context2.lineTo(x2, y2);
+		//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
+		context2.lineWidth = 2;
+		if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
+			context2.stroke();
+		}
+		context2.closePath();
 	}
 	
 	function resetNums() {
