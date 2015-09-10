@@ -310,7 +310,7 @@
 		curY = touch.pageY;
 		if(flag && drawable) {
 			if(pen) {
-				//drawLine(prevX,prevY,curX,curY);
+				drawLine(prevX,prevY,curX,curY);
 				//drawLine(prevX+1,prevY+1,curX-1,curY-1);
 				//drawLine(prevX-1,prevY-1,curX+1,curY+1);
 			} else {
@@ -398,10 +398,10 @@
 		context2.lineTo(x2, y2);
 		//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
 		context2.lineWidth = 2;
-		if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
+		//if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
 			context2.stroke();
-		}
-		context2.closePath();
+		//}
+		//context2.closePath();
 	}
 	
 	function resetNums() {
