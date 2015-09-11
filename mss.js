@@ -91,13 +91,13 @@
 	
 		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 	
-		/*canvas2.addEventListener('mousedown', mouseDownHandler, false);		
+		canvas2.addEventListener('mousedown', mouseDownHandler, false);		
 		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
-		*/canvas2.addEventListener('mouseup', mouseUpHandler, false);/*
+		canvas2.addEventListener('mouseup', mouseUpHandler, false);
 		canvas2.addEventListener('mouseout', function(e) {
 			flag = false;
 			held = null;
-		}, false);*/
+		}, false);
 		canvas1.addEventListener('touchstart', touchStartHandler, false);	
 		canvas1.addEventListener('touchmove', touchMoveHandler, false);		
 		canvas1.addEventListener('touchend', touchEndHandler, false);
@@ -268,7 +268,7 @@
 				if(butType == 'link') {
 					curslide = slides[curslide][2][i][5];
 					drawable = slides[curslide][1];
-					//context2.clearRect(0,0,canvas2.width,canvas2.height);
+					context2.clearRect(0,0,canvas2.width,canvas2.height);
 					held = null;
 					draggable = slides[curslide][3];
 					if(draggable){
