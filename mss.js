@@ -11,7 +11,7 @@
 	var pen = true;
 	var draggable = false;
 	
-	var startslide = 3;
+	var startslide = 2;
 	var curslide = startslide;
 	
 	var img;
@@ -34,44 +34,47 @@
 		['slide1',false,[],false,0],
 
 		//Main Menu
-		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0],		
+		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,17],['link',.02,.64,.29,.31,22],['link',.81,.57,.16,.19,4]],false,0],		
 		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0],
 		['slide4',false,[['link',.03,.56,.16,.19,startslide]],false,0],
 
 		//Number Digits
-		['slide5',false,[['link',.07,.2,.18,.23,6],['link',.29,.2,.18,.23,7],['link',.52,.2,.18,.23,8],['link',.75,.2,.18,.23,9],
-		['link',.07,.47,.18,.23,10],['link',.29,.47,.18,.23,11],['link',.52,.47,.18,.23,12],
-		['link',.75,.47,.18,.23,13],['link',.88,.83,.1,.13,startslide]],false,0],		
-		['slide6',false,[['link',.87,.85,.10,.10,5]],true,4,[[.2,.5,numW,numH],[.38,.5,numW,numH],[.56,.5,numW,numH],[.72,.5,numW,numH]]],
-		['slide7',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide5',false,[['link',.045,.2,.175,.225,7],['link',.255,.2,.175,.225,8],['link',.46,.2,.175,.225,9],['link',.67,.2,.175,.225,10],
+		['link',.045,.465,.175,.225,11],['link',.255,.465,.175,.225,12],['link',.46,.465,.175,.225,13],
+		['link',.67,.465,.175,.225,14],['link',.88,.34,.1,.195,6],['link',.88,.83,.1,.13,startslide]],false,0],
+		['slide6',false,[['link',.025,.34,.1,.195,5],['link',.15,.2,.175,.22,15],['link',.375,.2,.175,.22,16],['link',.88,.83,.1,.13,startslide]],false,0],
+		['slide7',false,[['link',.87,.85,.10,.10,5]],true,4,[[.2,.5,numW,numH],[.38,.5,numW,numH],[.56,.5,numW,numH],[.72,.5,numW,numH]]],
 		['slide8',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
-		['slide9',false,[['link',.87,.85,.10,.10,5]],true,5,[[.33,.2,numW,numH],[.475,.2,numW,numH],[.62,.2,numW,numH],
+		['slide9',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide10',false,[['link',.87,.85,.10,.10,5]],true,5,[[.33,.2,numW,numH],[.475,.2,numW,numH],[.62,.2,numW,numH],
 		[.475,.45,numW,numH],[.62,.45,numW,numH]]],
-		['slide10',false,[['link',.87,.85,.10,.10,5]],true,8,[[.27,.23,numW,numH],[.41,.23,numW,numH],[.56,.23,numW,numH],[.7,.23,numW,numH],
+		['slide11',false,[['link',.87,.85,.10,.10,5]],true,8,[[.27,.23,numW,numH],[.41,.23,numW,numH],[.56,.23,numW,numH],[.7,.23,numW,numH],
 		[.27,.48,numW,numH],[.41,.48,numW,numH],[.56,.48,numW,numH],[.7,.48,numW,numH]]],
-		['slide11',false,[['link',.87,.85,.10,.10,5]],true,7,[[.235,.2,numW,numH],[.38,.2,numW,numH],[.525,.2,numW,numH],[.67,.2,numW,numH],
+		['slide12',false,[['link',.87,.85,.10,.10,5]],true,7,[[.235,.2,numW,numH],[.38,.2,numW,numH],[.525,.2,numW,numH],[.67,.2,numW,numH],
 		[.38,.45,numW,numH],[.525,.45,numW,numH],[.67,.45,numW,numH]]],
-		['slide12',false,[['link',.87,.85,.10,.10,5]],true,9,[[.135,.2,numW,numH],[.28,.2,numW,numH],[.425,.2,numW,numH],[.57,.2,numW,numH],[.715,.2,numW,numH],
-		[.28,.45,numW,numH],[.425,.45,numW,numH],[.57,.45,numW,numH],[.715,.45,numW,numH]]],
-		['slide13',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide13',false,[['link',.87,.85,.10,.10,5]],true,9,[[.135,.2,numW,numH],[.28,.2,numW,numH],[.425,.2,numW,numH],[.57,.2,numW,numH],
+		[.715,.2,numW,numH],[.28,.45,numW,numH],[.425,.45,numW,numH],[.57,.45,numW,numH],[.715,.45,numW,numH]]],
+		['slide14',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
+		['slide15',false,[['link',.87,.85,.10,.10,6]],false,0],
+		['slide16',false,[['link',.87,.85,.10,.10,6]],false,0],
 
 		//Continuous Shapes
-		['slide14',false,[['link',.07,.29,.18,.22,15],['link',.29,.29,.18,.22,16],['link',.52,.29,.18,.22,17],['link',.74,.29,.18,.22,18],
+		['slide17',false,[['link',.07,.29,.18,.22,18],['link',.29,.29,.18,.22,19],['link',.52,.29,.18,.22,20],['link',.74,.29,.18,.22,21],
 		['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide15',false,[['link',.87,.85,.10,.10,14]],false,0],
-		['slide16',false,[['link',.87,.85,.10,.10,14]],false,0],
-		['slide17',false,[['link',.87,.85,.10,.10,14]],false,0],
-		['slide18',false,[['link',.87,.85,.10,.10,14]],false,0],
+		['slide18',false,[['link',.87,.85,.10,.10,17]],false,0],
+		['slide19',false,[['link',.87,.85,.10,.10,17]],false,0],
+		['slide20',false,[['link',.87,.85,.10,.10,17]],false,0],
+		['slide21',false,[['link',.87,.85,.10,.10,17]],false,0],
 		
 		//Lines of Symmetry
-		['slide19',false,[['link',.07,.2,.18,.23,20],['link',.29,.2,.18,.23,21],['link',.52,.2,.18,.23,22],['link',.75,.2,.18,.23,23],
-		['link',.07,.47,.18,.23,24],['link',.29,.47,.18,.23,25],['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide20',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
-		['slide21',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
-		['slide22',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
-		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
-		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
-		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,19]],false,0],
+		['slide22',false,[['link',.07,.2,.18,.23,23],['link',.29,.2,.18,.23,24],['link',.52,.2,.18,.23,25],['link',.75,.2,.18,.23,26],
+		['link',.07,.47,.18,.23,27],['link',.29,.47,.18,.23,28],['link',.88,.83,.1,.13,startslide]],false,0],
+		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['slide26',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['slide27',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['slide28',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
 	];
 	
 	var dragNums = [['numone',1,0,.1,.1,false],['numtwo',1,.1,.1,.1,false],['numthree',1,.2,.1,.1,false],['numfour',1,.3,.1,.1,false],['numfive',0,.4,.1,.1,false],
@@ -117,7 +120,7 @@
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();	
-		writeText('Version 1.13');
+		writeText('Version 1.14');
 	}
 	
 	function mouseDownHandler(e) {
@@ -153,6 +156,7 @@
 						boxes = slides[curslide][5];
 						resetNums();
 					}
+					writeText(curslide);
 				} else if(butType == 'clear') {
 					context2.clearRect(0,0,w+50,h);
 				} else if(butType == 'pen') {
