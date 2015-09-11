@@ -117,7 +117,7 @@
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();	
-		writeText('Version 1.12');
+		writeText('Version 1.13');
 	}
 	
 	function mouseDownHandler(e) {
@@ -217,7 +217,7 @@
 	}
 	
 	function mouseUpHandler(e) {
-		writeText('mouseup');
+		//writeText('mouseup');
 		flag = false;
 		draw();
 		drawDraggable;
@@ -241,7 +241,7 @@
 	
 	function touchStartHandler(e) {
 		e.preventDefault();
-		writeText('touchstart');
+		//writeText('touchstart');
 		prevX = curX;
 		prevY = curY;
 		
@@ -306,7 +306,7 @@
 	
 	function touchMoveHandler(e) {
 		e.preventDefault();
-		writeText('touchmove');
+		//writeText('touchmove');
 		//Draw lines following the mouse
 		prevX = curX;
 		prevY = curY;
@@ -350,7 +350,7 @@
 		//e.preventDefault();
 		flag = false;
 		draw();
-		writeText('touchend');
+		//writeText('touchend');
 		drawDraggable;
 		//Put an eraser button if appropriate
 		if(drawable) {
@@ -381,7 +381,7 @@
 		if(draggable) {
 			drawDraggable();
 		}
-		writeText('drawn');
+		//writeText('drawn');
 	}
 	
 	function writeText(s) {
