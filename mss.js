@@ -22,64 +22,105 @@
 	var h=0,w=0;
 	var snapConstant = .2;
 	
-	var numW = .13;
-	var numH = .24;
+	
+	var numW = 0;
+	var numH = 0;
+	
+	var largeNums = true;
 	
 	//Looks like a mess, but the array encodes the logic of the slide show.
 	//The format is slide image id, whether you can draw on the slide, and a list of buttons with the function and dimensions of each.
 	//The last parameter of a link is its destination
 	//Dimensions are in terms of percent of the page.
 	var slides = [
-		['slide0',false,[],false,0],
-		['slide1',false,[],false,0],
+		['slide0',false,[],false,0,0],
+		['slide1',false,[],false,0,0],
 
 		//Main Menu
-		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,17],['link',.02,.64,.29,.31,22],['link',.81,.57,.16,.19,4]],false,0],		
-		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0],
-		['slide4',false,[['link',.03,.56,.16,.19,startslide]],false,0],
+		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.55,.2,.31,.3,17],['link',.02,.64,.29,.31,22],['link',.81,.57,.16,.19,4],
+		['link',.28,.44,.28,.235,29]],false,0,0],		
+		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0,0],
+		['slide4',false,[['link',.03,.56,.16,.19,startslide]],false,0,0],
 
 		//Number Digits
 		['slide5',false,[['link',.045,.2,.175,.225,7],['link',.255,.2,.175,.225,8],['link',.46,.2,.175,.225,9],['link',.67,.2,.175,.225,10],
 		['link',.045,.465,.175,.225,11],['link',.255,.465,.175,.225,12],['link',.46,.465,.175,.225,13],
-		['link',.67,.465,.175,.225,14],['link',.88,.34,.1,.195,6],['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide6',false,[['link',.025,.34,.1,.195,5],['link',.15,.2,.175,.22,15],['link',.375,.2,.175,.22,16],['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide7',false,[['link',.87,.85,.10,.10,5]],true,4,[[.2,.5,numW,numH],[.38,.5,numW,numH],[.56,.5,numW,numH],[.72,.5,numW,numH]]],
-		['slide8',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
-		['slide9',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
-		['slide10',false,[['link',.87,.85,.10,.10,5]],true,5,[[.33,.2,numW,numH],[.475,.2,numW,numH],[.62,.2,numW,numH],
-		[.475,.45,numW,numH],[.62,.45,numW,numH]]],
-		['slide11',false,[['link',.87,.85,.10,.10,5]],true,8,[[.27,.23,numW,numH],[.41,.23,numW,numH],[.56,.23,numW,numH],[.7,.23,numW,numH],
-		[.27,.48,numW,numH],[.41,.48,numW,numH],[.56,.48,numW,numH],[.7,.48,numW,numH]]],
-		['slide12',false,[['link',.87,.85,.10,.10,5]],true,7,[[.235,.2,numW,numH],[.38,.2,numW,numH],[.525,.2,numW,numH],[.67,.2,numW,numH],
-		[.38,.45,numW,numH],[.525,.45,numW,numH],[.67,.45,numW,numH]]],
-		['slide13',false,[['link',.87,.85,.10,.10,5]],true,9,[[.135,.2,numW,numH],[.28,.2,numW,numH],[.425,.2,numW,numH],[.57,.2,numW,numH],
-		[.715,.2,numW,numH],[.28,.45,numW,numH],[.425,.45,numW,numH],[.57,.45,numW,numH],[.715,.45,numW,numH]]],
-		['slide14',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0],
-		['slide15',false,[['link',.87,.85,.10,.10,6]],false,0],
-		['slide16',false,[['link',.87,.85,.10,.10,6]],false,0],
+		['link',.67,.465,.175,.225,14],['link',.88,.34,.1,.195,6],['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide6',false,[['link',.025,.34,.1,.195,5],['link',.15,.2,.175,.22,15],['link',.375,.2,.175,.22,16],['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide7',false,[['link',.87,.85,.10,.10,5]],true,0,4,[[.2,.5],[.38,.5],
+		[.56,.5],[.72,.5]],[.13,.24]],
+		['slide8',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0,0],
+		['slide9',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0,0],
+		['slide10',false,[['link',.87,.85,.10,.10,5]],true,0,5,[[.33,.2],[.475,.2],[.62,.2],
+		[.475,.45],[.62,.45]],[.13,.24]],
+		['slide11',false,[['link',.87,.85,.10,.10,5]],true,0,8,[[.27,.23],[.41,.23],
+		[.56,.23],[.7,.23],
+		[.27,.48],[.41,.48],[.56,.48],[.7,.48]],[.13,.24]],
+		['slide12',false,[['link',.87,.85,.10,.10,5]],true,0,7,[[.235,.2],[.38,.2],
+		[.525,.2],[.67,.2],
+		[.38,.45],[.525,.45],[.67,.45]],[.13,.24]],
+		['slide13',false,[['link',.87,.85,.10,.10,5]],true,0,9,[[.135,.2],[.28,.2],
+		[.425,.2],[.57,.2],
+		[.715,.2],[.28,.45],[.425,.45],[.57,.45],
+		[.715,.45]],[.13,.24]],
+		['slide14',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0,0],
+		['slide15',false,[['link',.87,.85,.10,.10,6]],false,0,0],
+		['slide16',false,[['link',.87,.85,.10,.10,6]],false,0,0],
 
 		//Continuous Shapes
 		['slide17',false,[['link',.07,.29,.18,.22,18],['link',.29,.29,.18,.22,19],['link',.52,.29,.18,.22,20],['link',.74,.29,.18,.22,21],
-		['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide18',false,[['link',.87,.85,.10,.10,17]],false,0],
-		['slide19',false,[['link',.87,.85,.10,.10,17]],false,0],
-		['slide20',false,[['link',.87,.85,.10,.10,17]],false,0],
-		['slide21',false,[['link',.87,.85,.10,.10,17]],false,0],
+		['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide18',false,[['link',.87,.85,.10,.10,17]],false,0,0],
+		['slide19',false,[['link',.87,.85,.10,.10,17]],false,0,0],
+		['slide20',false,[['link',.87,.85,.10,.10,17]],false,0,0],
+		['slide21',false,[['link',.87,.85,.10,.10,17]],false,0,0],
 		
 		//Lines of Symmetry
 		['slide22',false,[['link',.07,.2,.18,.23,23],['link',.29,.2,.18,.23,24],['link',.52,.2,.18,.23,25],['link',.75,.2,.18,.23,26],
-		['link',.07,.47,.18,.23,27],['link',.29,.47,.18,.23,28],['link',.88,.83,.1,.13,startslide]],false,0],
-		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
-		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
-		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
-		['slide26',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
-		['slide27',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
-		['slide28',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0],
+		['link',.07,.47,.18,.23,27],['link',.29,.47,.18,.23,28],['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide23',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+		['slide24',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+		['slide25',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+		['slide26',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+		['slide27',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+		['slide28',true,[['clear',0,.9,.10,.10,0],['pen',.1,.9,.10,.10,0],['eraser',.2,.9,.10,.10,0],['link',.87,.85,.10,.10,22]],false,0,0],
+
+		//Square Sums
+		['slide29',false,[['link',.045,.2,.175,.225,31],['link',.255,.2,.175,.225,32],['link',.46,.2,.175,.225,33],['link',.67,.2,.175,.225,34],
+		['link',.045,.465,.175,.225,35],['link',.255,.465,.175,.225,36],['link',.46,.465,.175,.225,37],
+		['link',.67,.465,.175,.225,38],['link',.88,.34,.1,.195,30],['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide30',false,[['link',.025,.34,.1,.195,29],['link',.15,.2,.175,.22,39],['link',.88,.83,.1,.13,startslide]],false,0,0],
+		['slide31',false,[['link',.87,.85,.10,.10,29]],true,0,4,[[.35,.41],[.35+.125,.41],
+		[.35,.41+.15],[.35+.125,.41+.15]],[.125,.15]],
+		['slide32',false,[['link',.87,.85,.10,.10,29]],true,1,5,[[.35,.41],[.35+.125,.41],
+		[.35,.41+.15],[.35+.125,.41+.15]],[.125,.15]],
+		['slide33',false,[['link',.87,.85,.10,.10,29]],true,5,9,[[.35,.41],[.35+.125,.41],
+		[.35,.41+.15],[.35+.125,.41+.15]],[.125,.15]],
+		['slide34',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.28,.255],[.28+.115,.255],
+		[.28+2*.115,.255],[.28,.255+.15],[.28+.115,.255+.15],
+		[.28+2*.115,.255+.15],[.28,.255+2*.15],[.28+.115,.255+2*.15],
+		[.28+2*.115,.255+2*.15]],[.115,.15]],
+		['slide35',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.28,.255],[.28+.115,.255],
+		[.28+2*.115,.255],[.28,.255+.15],[.28+.115,.255+.15],
+		[.28+2*.115,.255+.15],[.28,.255+2*.15],[.28+.115,.255+2*.15],
+		[.28+2*.115,.255+2*.15]],[.115,.15]],
+		['slide36',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.29,.33],[.29+.15,.33],
+		[.29+2*.15,.33],[.29,.33+.2],[.29+.15,.33+.2],
+		[.29+2*.15,.33+.2],[.29,.33+2*.2],[.29+.15,.33+2*.2],
+		[.29+2*.15,.33+2*.2]],[.15,.2]],
+		['slide37',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.293,.385],
+		[.293+2*.136,.385],[.293,.385+.182],[.293+.136,.385+.182],[.293+.136,.385+2*.182],
+		[.293+2*.136,.385+2*.182]],[.136,.182]],
+		['slide38',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.289,.389],
+		[.289+2*.139,.389],[.289,.389+.186],[.289+.139,.389+.186],[.289,.389+2*.186],
+		[.289+2*.139,.389+2*.186]],[.139,.186]],
+		['slide39',false,[['link',.87,.85,.10,.10,30]],false,0,0],
 	];
 	
 	var dragNums = [['numone',1,0,.1,.1,false],['numtwo',1,.1,.1,.1,false],['numthree',1,.2,.1,.1,false],['numfour',1,.3,.1,.1,false],['numfive',0,.4,.1,.1,false],
 		['numsix',0,.5,.1,.1,false],['numseven',0,.6,.1,.1,false],['numeight',0,.7,.1,.1,false],['numnine',0,.8,.1,.1,false]];
-	var numsEnabled = 0;
+	var numsEnabledMin = 0;
+	var numsEnabledMax = 0;
 
 	var held = null;
 	var boxes = [];
@@ -152,8 +193,11 @@
 					held = null;
 					draggable = slides[curslide][3];
 					if(draggable){
-						numsEnabled = slides[curslide][4];
-						boxes = slides[curslide][5];
+						numsEnabledMin = slides[curslide][4];
+						numsEnabledMax = slides[curslide][5];
+						boxes = slides[curslide][6];
+						numW = slides[curslide][7][0];
+						numH = slides[curslide][7][1];
 						resetNums();
 					}
 					writeText(curslide);
@@ -171,7 +215,7 @@
 			}
 		}
 		if(draggable) {
-			for(i=0;i<numsEnabled;i++) {
+			for(i=numsEnabledMin;i<numsEnabledMax;i++) {
 				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
 				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
 					held = dragNums[i];
@@ -203,8 +247,8 @@
 		snapped = false;
 		if (draggable && held != null) {	
 			for(i=0;i<boxes.length;i++) { 
-				if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
-				curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+				if (curX > (boxes[i][0]+snapConstant*numW)*w && curX < (boxes[i][0] + (1-snapConstant)*numW)*w && 
+				curY > (boxes[i][1]+snapConstant*numH)*h && curY < (boxes[i][1] + (1-snapConstant)*numH)*h) {
 					held[1] = boxes[i][0];
 					held[2] = boxes[i][1];
 					snapped = true;
@@ -276,8 +320,11 @@
 					held = null;
 					draggable = slides[curslide][3];
 					if(draggable){
-						numsEnabled = slides[curslide][4];
-						boxes = slides[curslide][5];
+						numsEnabledMin = slides[curslide][4];
+						numsEnabledMax = slides[curslide][5];
+						boxes = slides[curslide][6];
+						numW = slides[curslide][7][0];
+						numH = slides[curslide][7][1];
 						resetNums();
 					}
 				} else if(butType == 'clear') {
@@ -295,7 +342,7 @@
 		}
 		
 		if(draggable) {
-			for(i=0;i<numsEnabled;i++) {
+			for(i=numsEnabledMin;i<numsEnabledMax;i++) {
 				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
 				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
 					held = dragNums[i];
@@ -333,8 +380,8 @@
 		snapped = false;
 		if (draggable && held != null) {	
 			for(i=0;i<boxes.length;i++) { 
-				if (curX > (boxes[i][0]+snapConstant*boxes[i][2])*w && curX < (boxes[i][0] + (1-snapConstant)*boxes[i][2])*w && 
-				curY > (boxes[i][1]+snapConstant*boxes[i][3])*h && curY < (boxes[i][1] + (1-snapConstant)*boxes[i][3])*h) {
+				if (curX > (boxes[i][0]+snapConstant*numW)*w && curX < (boxes[i][0] + (1-snapConstant)*numW)*w && 
+				curY > (boxes[i][1]+snapConstant*numH)*h && curY < (boxes[i][1] + (1-snapConstant)*numH)*h) {
 					held[1] = boxes[i][0];
 					held[2] = boxes[i][1];
 					snapped = true;
@@ -395,11 +442,11 @@
 	}
 	function drawDraggable() {
 		context2.clearRect(0,0,canvas2.width,canvas2.height);
-		for(i=0;i<numsEnabled;i++) {
+		for(i=numsEnabledMin;i<numsEnabledMax;i++) {
 			context2.drawImage(document.getElementById(dragNums[i][0]),dragNums[i][1]*w,dragNums[i][2]*h,dragNums[i][3]*w,dragNums[i][4]*h);
 		}
 		for(i=0;i<boxes.length;i++) {
-			context1.drawImage(document.getElementById('box'),boxes[i][0]*w,boxes[i][1]*h,boxes[i][2]*w,boxes[i][3]*h);
+			context1.drawImage(document.getElementById('box'),boxes[i][0]*w,boxes[i][1]*h,numW*w,numH*h);
 		}
 	}
 	
