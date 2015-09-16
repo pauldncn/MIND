@@ -29,7 +29,8 @@
 	var largeNums = true;
 	
 	//Looks like a mess, but the array encodes the logic of the slide show.
-	//The format is slide image id, whether you can draw on the slide, and a list of buttons with the function and dimensions of each.
+	//The format is slide image id, whether you can draw on the slide, a list of buttons, whether draggable numbers are available,
+	//what range they come in, the boxes where they can be dropped, and their dimensions
 	//The last parameter of a link is its destination
 	//Dimensions are in terms of percent of the page.
 	var slides = [
@@ -108,10 +109,10 @@
 		[.29+2*.15,.33],[.29,.33+.2],[.29+.15,.33+.2],
 		[.29+2*.15,.33+.2],[.29,.33+2*.2],[.29+.15,.33+2*.2],
 		[.29+2*.15,.33+2*.2]],[.15,.2]],
-		['slide37',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.293,.385],
+		['slide37',false,[['link',.87,.85,.10,.10,29]],true,1,9,[[.293,.385],
 		[.293+2*.136,.385],[.293,.385+.182],[.293+.136,.385+.182],[.293+.136,.385+2*.182],
 		[.293+2*.136,.385+2*.182]],[.136,.182]],
-		['slide38',false,[['link',.87,.85,.10,.10,29]],true,0,9,[[.289,.389],
+		['slide38',false,[['link',.87,.85,.10,.10,29]],true,2,9,[[.289,.389],
 		[.289+2*.139,.389],[.289,.389+.186],[.289+.139,.389+.186],[.289,.389+2*.186],
 		[.289+2*.139,.389+2*.186]],[.139,.186]],
 		['slide39',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,30]],false,0,0],
