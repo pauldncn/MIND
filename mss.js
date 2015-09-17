@@ -38,7 +38,7 @@
 		['slide1',false,[],false,0,0],
 
 		//Main Menu
-		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.55,.2,.31,.3,17],['link',.02,.64,.29,.31,22],['link',.81,.57,.16,.19,4],
+		['slide2',false,[['link',.04,.18,.4,.25,5],['link',.55,.2,.31,.3,17],['link',.02,.64,.29,.31,22],/*['link',.81,.57,.16,.19,4],*/
 		['link',.28,.44,.28,.235,29],['link',.45,.71,.34,.25,40]],false,0,0],		
 		['slide3',false,[['link',.04,.18,.4,.25,5],['link',.53,.2,.33,.3,14],['link',.02,.64,.29,.31,19],['link',.81,.57,.16,.19,4]],false,0,0],
 		['slide4',false,[['link',.03,.56,.16,.19,startslide]],false,0,0],
@@ -65,8 +65,8 @@
 		[.715,.2],[.28,.45],[.425,.45],[.57,.45],
 		[.715,.45]],[.13,.24]],
 		['slide14',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,5]],false,0,0],
-		['slide15',false,[['link',.87,.85,.10,.10,6]],false,0,0],
-		['slide16',false,[['link',.87,.85,.10,.10,6]],false,0,0],
+		['slide15',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,6]],false,0,0],
+		['slide16',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,6]],false,0,0],
 
 		//Continuous Shapes
 		['slide17',false,[['link',.07,.29,.18,.22,18],['link',.29,.29,.18,.22,19],['link',.52,.29,.18,.22,20],['link',.74,.29,.18,.22,21],
@@ -112,7 +112,7 @@
 		['slide37',false,[['link',.87,.85,.10,.10,29]],true,1,9,[[.293,.385],
 		[.293+2*.136,.385],[.293,.385+.182],[.293+.136,.385+.182],[.293+.136,.385+2*.182],
 		[.293+2*.136,.385+2*.182]],[.136,.182]],
-		['slide38',false,[['link',.87,.85,.10,.10,29]],true,2,9,[[.289,.389],
+		['slide38',false,[['link',.87,.85,.10,.10,29]],true,2,10,[[.289,.389],
 		[.289+2*.139,.389],[.289,.389+.186],[.289+.139,.389+.186],[.289,.389+2*.186],
 		[.289+2*.139,.389+2*.186]],[.139,.186]],
 		['slide39',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,30]],false,0,0],
@@ -134,7 +134,7 @@
 	];
 	
 	var dragNums = [['numone',1,0,.1,.1,false],['numtwo',1,.1,.1,.1,false],['numthree',1,.2,.1,.1,false],['numfour',1,.3,.1,.1,false],['numfive',0,.4,.1,.1,false],
-		['numsix',0,.5,.1,.1,false],['numseven',0,.6,.1,.1,false],['numeight',0,.7,.1,.1,false],['numnine',0,.8,.1,.1,false]];
+		['numsix',0,.5,.1,.1,false],['numseven',0,.6,.1,.1,false],['numeight',0,.7,.1,.1,false],['numnine',0,.8,.1,.1,false],['numten',1,0,.1,.1,false]];
 	var numsEnabledMin = 0;
 	var numsEnabledMax = 0;
 
@@ -148,8 +148,6 @@
 		canvas1 = document.getElementById( 'canvas1' );
 		
 		canvas2 = document.getElementById( 'canvas2' );
-	
-		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 	
 		canvas2.addEventListener('mousedown', mouseDownHandler, false);		
 		canvas2.addEventListener('mousemove', mouseMoveHandler, false);				
@@ -170,6 +168,7 @@
 		canvas2.addEventListener('touchleave', otherHandler, false);
 		canvas2.addEventListener('touchcancel', otherHandler, false);
 
+		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
 		context1  = canvas1.getContext( "2d" );
 		context2  = canvas2.getContext( "2d" );	
 		context1.canvas.width  = window.innerWidth - 25;
@@ -216,9 +215,9 @@
 						numH = slides[curslide][7][1];
 						resetNums();
 					}
-					writeText(curslide);
+					//writeText(curslide);
 				} else if(butType == 'clear') {
-					context2.clearRect(0,0,w+50,h);
+					context2.clearRect(0,0,canvas2.width,canvas2.height);
 				} else if(butType == 'pen') {
 					pen = true;
 				} else if(butType == 'eraser') {
@@ -232,13 +231,15 @@
 		}
 		if(draggable) {
 			for(i=numsEnabledMin;i<numsEnabledMax;i++) {
-				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
-				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
-					held = dragNums[i];
-					dragNums[i][1] = curX/w - dragNums[i][3]/2;
-					dragNums[i][2] = curY/h - dragNums[i][4]/2;
-					drawDraggable();
-					break;
+				if((curslide != 37 || (i != 3 && i != 6)) && (curslide != 38 || (i != 2 && i != 8))) {
+					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
+					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
+						held = dragNums[i];
+						dragNums[i][1] = curX/w - dragNums[i][3]/2;
+						dragNums[i][2] = curY/h - dragNums[i][4]/2;
+						drawDraggable();
+						break;
+					}
 				}
 			}
 		}
@@ -261,6 +262,8 @@
 			
 		}
 		snapped = false;
+		
+		//Manually disabled certain numbers since they don't come in a range in only those two slides
 		if (draggable && held != null) {	
 			for(i=0;i<boxes.length;i++) { 
 				if (curX > (boxes[i][0]+snapConstant*numW)*w && curX < (boxes[i][0] + (1-snapConstant)*numW)*w && 
@@ -270,7 +273,6 @@
 					snapped = true;
 					break;
 				}
-				//dragNums[0][0] = 'erase';
 			}
 			if (!snapped) {
 				held[1] = curX/w - held[3]/2;
@@ -381,13 +383,15 @@
 		
 		if(draggable) {
 			for(i=numsEnabledMin;i<numsEnabledMax;i++) {
-				if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
-				curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
-					held = dragNums[i];
-					dragNums[i][1] = curX/w - dragNums[i][3]/2;
-					dragNums[i][2] = curY/h - dragNums[i][4]/2;
-					drawDraggable();
-					break;
+				if((curslide != 37 || (i != 3 && i != 6)) && (curslide != 38 || (i != 2 && i != 8))) {
+					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
+					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
+						held = dragNums[i];
+						dragNums[i][1] = curX/w - dragNums[i][3]/2;
+						dragNums[i][2] = curY/h - dragNums[i][4]/2;
+						drawDraggable();
+						break;
+					}
 				}
 			}
 		}
@@ -503,7 +507,9 @@
 	function drawDraggable() {
 		context2.clearRect(0,0,canvas2.width,canvas2.height);
 		for(i=numsEnabledMin;i<numsEnabledMax;i++) {
-			context2.drawImage(document.getElementById(dragNums[i][0]),dragNums[i][1]*w,dragNums[i][2]*h,dragNums[i][3]*w,dragNums[i][4]*h);
+			if((curslide != 37 || (i != 3 && i != 6)) && (curslide != 38 || (i != 2 && i != 8))) {
+				context2.drawImage(document.getElementById(dragNums[i][0]),dragNums[i][1]*w,dragNums[i][2]*h,dragNums[i][3]*w,dragNums[i][4]*h);
+			}
 		}
 		for(i=0;i<boxes.length;i++) {
 			context1.drawImage(document.getElementById('box'),boxes[i][0]*w,boxes[i][1]*h,numW*w,numH*h);
@@ -516,9 +522,9 @@
 		context2.lineTo(x2, y2);
 		//Ends up jagged on diagonal lines if the width is too big because the lines have to be drawn a little at a time
 		context2.lineWidth = 2;
-		if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
+		//if(canvas2.height*img.width/img.height - x2 >= 0 && canvas2.height - y2 >= 0) {
 			context2.stroke();
-		}
+		//}
 		context2.closePath();
 	}
 	
