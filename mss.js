@@ -26,7 +26,6 @@
 	var numW = 0;
 	var numH = 0;
 	
-	var largeNums = true;
 	
 	//Looks like a mess, but the array encodes the logic of the slide show.
 	//The format is slide image id, whether you can draw on the slide, a list of buttons, whether draggable numbers are available,
@@ -133,15 +132,19 @@
 		['slide50',true,[['clear',0,.9,.10,.10,0],['pen',0,.7,.10,.10,0],['eraser',0,.8,.10,.10,0],['link',.87,.85,.10,.10,40],['link',.04,.42,.21,.21,49]],false,0,0],
 	];
 	
+	//Info for the draggable numbers in the same image id,x,y,width,height format
+	//Initialized values are mostly irrelevant since resetNums will change them anyway
 	var dragNums = [['numone',1,0,.1,.1,false],['numtwo',1,.1,.1,.1,false],['numthree',1,.2,.1,.1,false],['numfour',1,.3,.1,.1,false],['numfive',0,.4,.1,.1,false],
 		['numsix',0,.5,.1,.1,false],['numseven',0,.6,.1,.1,false],['numeight',0,.7,.1,.1,false],['numnine',0,.8,.1,.1,false],['numten',1,0,.1,.1,false]];
 	var numsEnabledMin = 0;
 	var numsEnabledMax = 0;
 
+	//Used for dragging numbers into boxes
 	var held = null;
 	var boxes = [];
 	var snapped = false;
 	
+	//Only handling one touch at a time
 	var touch = null;
 	
 	function init() {
@@ -156,6 +159,8 @@
 			flag = false;
 			held = null;
 		}, false);
+		
+		//With touch it seems to be unpredictable which canvas will fire the event, so both need to be able to handle it
 		canvas1.addEventListener('touchstart', touchStartHandler, false);	
 		canvas1.addEventListener('touchmove', touchMoveHandler, false);		
 		canvas1.addEventListener('touchend', touchEndHandler, false);
@@ -168,7 +173,7 @@
 		canvas2.addEventListener('touchleave', otherHandler, false);
 		canvas2.addEventListener('touchcancel', otherHandler, false);
 
-		// Just innerwidth/innerheight makes a scroll bar appear, not sure if I am doing something wrong here
+		// Just innerwidth/innerheight makes a scroll bar appear
 		context1  = canvas1.getContext( "2d" );
 		context2  = canvas2.getContext( "2d" );	
 		context1.canvas.width  = window.innerWidth - 25;
@@ -176,7 +181,7 @@
 		context2.canvas.width  = window.innerWidth - 25;
 		context2.canvas.height = window.innerHeight - 25;
 		draw();	
-		writeText('Version 1.14');
+		//writeText('Version 1.14');
 	}
 	
 	function mouseDownHandler(e) {
@@ -215,7 +220,6 @@
 						numH = slides[curslide][7][1];
 						resetNums();
 					}
-					//writeText(curslide);
 				} else if(butType == 'clear') {
 					context2.clearRect(0,0,canvas2.width,canvas2.height);
 				} else if(butType == 'pen') {
@@ -229,8 +233,10 @@
 				flag = true;
 			}
 		}
+		//Pick up a number if you click on it
 		if(draggable) {
 			for(i=numsEnabledMin;i<numsEnabledMax;i++) {
+				//Case by case exclusion for a couple of slides
 				if((curslide != 37 || (i != 3 && i != 6)) && (curslide != 38 || (i != 2 && i != 8))) {
 					if (curX > dragNums[i][1]*w && curX < (dragNums[i][1] + dragNums[i][3])*w && 
 					curY > dragNums[i][2]*h && curY < (dragNums[i][2] + dragNums[i][4])*h) {
@@ -263,7 +269,7 @@
 		}
 		snapped = false;
 		
-		//Manually disabled certain numbers since they don't come in a range in only those two slides
+		//Snap the number into the box if it is close enough
 		if (draggable && held != null) {	
 			for(i=0;i<boxes.length;i++) { 
 				if (curX > (boxes[i][0]+snapConstant*numW)*w && curX < (boxes[i][0] + (1-snapConstant)*numW)*w && 
@@ -283,11 +289,10 @@
 	}
 	
 	function mouseUpHandler(e) {
-		//writeText('mouseup');
 		flag = false;
 		draw();
 		drawDraggable;
-		//Put an eraser button if appropriate
+		//Put in the drawable tools for the appropriate slides
 		if(drawable) {
 			context1.drawImage(document.getElementById('clear'),0,.9*h,.1*w,.1*h);
 			context1.drawImage(document.getElementById('pen'),0,.7*h,.1*w,.1*h);
@@ -302,7 +307,11 @@
 			context1.stroke();
 			context1.closePath();
 		}
+		
 		held = null;
+		
+		//Simulating how this slide works in the powerpoint with a delayed transition
+		//Maybe could use a similar idea for the rest of the pythagorean theorem illustration?
 		if (curslide == 48) {
 			setTimeout(function(){
 				curslide = 49;
@@ -326,6 +335,8 @@
 			}, 2000);
 		}
 	}
+	
+	//Touch handlers behave the same way as mouse handlers
 	
 	function touchStartHandler(e) {
 		e.preventDefault();
@@ -485,10 +496,12 @@
 		}
 	}
 	
+	//Not sure if needed
 	function otherHandler(e) {
 		e.preventDefault();
 	}
 	
+	//Draws the background
 	function draw() {
 		context1.clearRect(0, 0, canvas1.width, canvas1.height);
 		img = document.getElementById(slides[curslide][0]);
@@ -496,14 +509,17 @@
 		if(draggable) {
 			drawDraggable();
 		}
-		//writeText('drawn');
 	}
 	
+	//Hacky console simulator
+	//If you use this before you draw the background it will be overwritten
 	function writeText(s) {
 		context1.clearRect(0,0,100,15);
 		context1.font = "10px Arial";
 		context1.strokeText(s,0,10);		
 	}
+	
+	//Draws the numbers to drag and the boxes to put them in
 	function drawDraggable() {
 		context2.clearRect(0,0,canvas2.width,canvas2.height);
 		for(i=numsEnabledMin;i<numsEnabledMax;i++) {
@@ -516,6 +532,7 @@
 		}
 	}
 	
+	//Used for whiteboard functionality
 	function drawLine(x1,y1,x2,y2) {
 		context2.beginPath();
 		context2.moveTo(x1, y1);
@@ -528,6 +545,7 @@
 		context2.closePath();
 	}
 	
+	//Resets and resizes the numbers according to the slide that they are on
 	function resetNums() {
 		for(i=0;i<dragNums.length;i++) {
 			dragNums[i][1] = 1+Math.floor(i/3)*numW;
